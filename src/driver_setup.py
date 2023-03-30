@@ -1,6 +1,8 @@
 # Selenium
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromiumService
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 # Other
 import platform
@@ -37,6 +39,17 @@ def get_driver(options):
     options.binary_location = browser_path
     service = ChromiumService(driver_path)
     driver = webdriver.Chrome(service=service, options=options)
+
+    # Test driver
+    try:
+        driver.get("https://www.google.com/")
+        wait = WebDriverWait(driver, 10)
+        wait.until(EC.title_is("Google"))
+        print("Driver test successful")
+    except:
+        print("Failed to load page!\nCheck if the browser and driver paths are correct")
+        driver.quit()
+        exit()
     
     # Return driver
     return driver
