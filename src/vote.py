@@ -15,18 +15,8 @@ from src.args import args
 
 def vote_on_server(url, cookies):
 
-    options = Options()
-    if not args.debug:
-        options.add_argument("--headless")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-notifications")
-    options.add_argument("--window-size=960,960")
-    options.add_argument("--incognito")
-    options.add_argument("--disable-cloud-management")
-
     # Get driver
-    driver = get_driver(options)
+    driver = get_driver()
 
     # Load page
     try:
