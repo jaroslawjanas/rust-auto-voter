@@ -8,7 +8,6 @@ import time
 from src.args import args
 
 def main():
-    print(args)
     # Cookie search
     steam_cookies = "./config/steam_cookies"
     cookies_files = glob.glob(steam_cookies + "/*.pkl")
