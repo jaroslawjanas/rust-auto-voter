@@ -79,7 +79,7 @@ def get_driver(options=None):
     # if options is not None then
     if not options:
         options = Options()
-        if not args.headless:
+        if args.headless:
             options.add_argument("--headless")
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-infobars")
