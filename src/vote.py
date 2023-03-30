@@ -24,7 +24,7 @@ def vote_on_server(url, cookies):
     except:
         print(f"Failed to load page!\nCheck if the URL is correct: {url}")
         driver.quit()
-        return
+        return False
 
     # Wait for document to load
     try:
@@ -33,6 +33,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for page to load")
         driver.quit()
+        return False
 
     # Wait for cookies prompt to load and accapt
     try:
@@ -43,6 +44,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for cookies prompt to load")
         driver.quit()
+        return False
 
     # Wait for the button to be clickable and click
     try:
@@ -53,6 +55,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for button to be clickable")
         driver.quit()
+        return False
 
     # Steam Form
     try:
@@ -66,6 +69,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for/filling in Steam form")
         driver.quit()
+        return False
 
     # Wait for steam to load
     try:
@@ -74,6 +78,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for Steam to load")
         driver.quit()
+        return False
 
     # Add cookies
     for cookie in cookies:
@@ -91,6 +96,7 @@ def vote_on_server(url, cookies):
     except TimeoutException:
         print("Timed out waiting for steam login form to load")
         driver.quit()
+        return False
 
     # Selenium look for h1 with text "Vote Confirmation"
     try:
