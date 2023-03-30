@@ -19,6 +19,14 @@ def main():
         vote_urls = json.load(file)
     print(f"Found {len(vote_urls)} vote urls")
 
+    if len(vote_urls) == 0:
+        print("No vote urls found, exiting")
+        return
+    
+    if len(cookies_files) == 0:
+        print("No cookies found, exiting")
+        return
+
     # Initial vote
     print("Beginning initial vote")
     vote_loop(vote_urls, cookies_files)
