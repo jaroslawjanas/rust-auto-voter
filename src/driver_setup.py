@@ -98,9 +98,10 @@ def get_driver(options=None):
         driver.get("https://www.google.com/")
         wait = WebDriverWait(driver, 10)
         wait.until(EC.title_is("Google"))
-        print("Driver test successful")
+        if args.debug:
+            print("Driver test successful")
     except:
-        print("Failed to load page!\nCheck if the browser and driver paths are correct")
+        print("Failed to test the driver!\nCheck if the browser and driver paths are correct")
         driver.quit()
         exit()
 
