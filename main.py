@@ -1,13 +1,14 @@
 import glob
-from vote import vote_on_server
+from src.vote import vote_on_server
 import json
 import pickle
 from datetime import datetime
 import os
 import time
-import args
+from src.args import args
 
 def main():
+    print(args)
     # Cookie search
     steam_cookies = "./config/steam_cookies"
     cookies_files = glob.glob(steam_cookies + "/*.pkl")
@@ -29,7 +30,7 @@ def main():
         time_since = datetime.now() - last_vote
 
         # Check if it's been 5 hours since the last execution
-        if time_since.seconds > 60*60*args.args.interval:
+        if time_since.seconds > 60*60*args.interval:
             print(f"Beginning vote at {datetime.now().strftime('%H:%M:%S')}")
             vote_loop(vote_urls, cookies_files)
         else:

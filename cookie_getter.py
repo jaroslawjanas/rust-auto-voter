@@ -1,6 +1,6 @@
 # Selenium
 from selenium.webdriver.chrome.options import Options
-from driver_setup import get_driver
+from src.driver_setup import get_driver
 
 # Other
 import pickle

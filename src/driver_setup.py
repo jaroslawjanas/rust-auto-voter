@@ -6,16 +6,16 @@ from selenium.webdriver.chrome.service import Service as ChromiumService
 import platform
 import time
 import os
-import args
+from src.args import args
 
 
 def get_driver(options):
 
     # Check OS and set paths
-    if args.args.browser_path and args.args.driver_path:
-        browser_path = args.args.browser_path
-        driver_path = args.args.driver_path
-    elif args.args.browser_path or args.args.driver_path:
+    if args.browser_path and args.driver_path:
+        browser_path = args.browser_path
+        driver_path = args.driver_path
+    elif args.browser_path or args.driver_path:
         print("You must specify both browser (--browser_path) and driver (--driver_path) path")
         exit()
 

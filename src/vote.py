@@ -1,7 +1,6 @@
 # Start
-from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from driver_setup import get_driver
+from src.driver_setup import get_driver
 
 # Locators
 from selenium.webdriver.common.by import By
@@ -12,12 +11,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 # Other
-import args
+from src.args import args
 
 def vote_on_server(url, cookies):
 
     options = Options()
-    if not args.args.debug:
+    if not args.debug:
         options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-infobars")
