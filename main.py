@@ -51,6 +51,10 @@ def vote_loop(vote_urls, cookies_files):
 
     # Vote loop
     for vote_url in vote_urls:
+        if vote_url == "":
+            print("Empty vote url found, skipping")
+            continue
+
         print(f"Beggining vote loop for {vote_url}")
 
         for cookies_file in cookies_files:
