@@ -29,7 +29,12 @@ def vote_on_server(url, cookies):
     driver = get_driver(options)
 
     # Load page
-    driver.get(url)
+    try:
+        driver.get(url)
+    except:
+        print(f"Failed to load page!\nCheck if the URL is correct: {url}")
+        driver.quit()
+        return
 
     # Wait for document to load
     try:
