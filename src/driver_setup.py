@@ -10,14 +10,16 @@ import platform
 import time
 import os
 from src.args import args
+from src.logs import log
+from src.logs import debug_log
 
+
+deafult_paths = {
+    "Windows": ("./browser/chrome-win/chrome.exe", "./browser/chromedriver_win32/chromedriver.exe"),
+    "Linux": ("./browser/chrome-linux/chrome", "./browser/chromedriver_linux64/chromedriver")
+}
 
 def get_paths():
-
-    deafult_paths = {
-        "Windows": ("./browser/chrome-win/chrome.exe", "./browser/chromedriver_win32/chromedriver.exe"),
-        "Linux": ("./browser/chrome-linux/chrome", "./browser/chromedriver_linux64/chromedriver")
-    }
 
     # Set paths
     if args.browser_path and args.driver_path:
@@ -84,9 +86,19 @@ def get_driver(options=None):
         options.add_argument("--disable-gpu")
         options.add_argument("--disable-infobars")
         options.add_argument("--disable-notifications")
-        options.add_argument("--window-size=960,960")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--disable-dev-shm-usage")
+        if args.debug:
+            options.add_argument("--window-size=1920,1080")
+        else:
+            options.add_argument("--window-size=960,960")
         options.add_argument("--incognito")
         options.add_argument("--disable-cloud-management")
+        if args.debug:
+            options.add_argument("--log-level=0")
+        else:
+            options.add_argument("--log-level=3")
+            options.add_argument("--silent")
 
     options.binary_location = browser_path
 
@@ -98,8 +110,7 @@ def get_driver(options=None):
         driver.get("https://www.google.com/")
         wait = WebDriverWait(driver, 10)
         wait.until(EC.title_is("Google"))
-        if args.debug:
-            print("Driver test successful")
+        debug_log("Driver test successful")
     except:
         print("Failed to test the driver!\nCheck if the browser and driver paths are correct")
         driver.quit()

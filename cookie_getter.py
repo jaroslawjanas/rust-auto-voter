@@ -33,7 +33,6 @@ def main():
         os.makedirs("./config/steam_cookies/")
 
     # Export cookies
-    cookies = driver.get_cookies()
     pickle.dump(driver.get_cookies(), open(
         f"./config/steam_cookies/{account_name}.pkl", "wb"))
     driver.quit()

@@ -4,8 +4,10 @@ import json
 import pickle
 from datetime import datetime
 from src.logs import log
+from src.logs import debug_log
 import time
 from src.args import args
+
 
 def main():
     # Cookie search
@@ -22,7 +24,7 @@ def main():
     if len(vote_urls) == 0:
         print("No vote urls found, exiting")
         return
-    
+
     if len(cookies_files) == 0:
         print("No cookies found, exiting")
         return
@@ -55,17 +57,19 @@ def vote_loop(vote_urls, cookies_files):
         "success": [],
         "fail": []
     }
-    start_time = datetime.now()
+
+    debug_log(f"Started voting at {datetime.now().strftime('%H:%M:%S')}")
 
     # Vote loop
     for vote_url in vote_urls:
         if vote_url == "":
-            print("Empty vote url found, skipping")
+            debug_log(f"Empty vote url found, skipping")
             continue
 
-        print(f"Beggining vote loop for {vote_url}")
+        debug_log(f"Beggining vote loop for {vote_url}")
 
         for cookies_file in cookies_files:
+            debug_log(f"Beggining voting using {cookies_file}")
             cookies = pickle.load(open(cookies_file, "rb"))
             result = vote_on_server(vote_url, cookies)
 
@@ -75,24 +79,20 @@ def vote_loop(vote_urls, cookies_files):
                 results["fail"].append((cookies_file, vote_url))
 
     # Results
-    print(f"Finished voting at {datetime.now().strftime('%H:%M:%S')}")
+    log(f"Finished voting at {datetime.now().strftime('%H:%M:%S')}")
     print(f"Made {len(results['success'])} successful votes")
     print(f"Failed {len(results['fail'])} votes")
 
     # Log results
-    log_msg = f"Started voting at {start_time.strftime('%d/%m/%Y %H:%M:%S')}\n" + \
-        f"Finished voting at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n"
-    
-    log_msg += f"Made {len(results['success'])} successful votes\n"    
+    log(f"Made {len(results['success'])} successful votes")
     for success in results["success"]:
-        log_msg += f"{success[0]}\t{success[1]}\n"
+        log(f"{success[0]}\t{success[1]}")
 
-    log_msg += f"Failed {len(results['fail'])} votes\n"
+    log(f"Failed {len(results['fail'])} votes")
     for fail in results["fail"]:
-        log_msg += f"{fail[0]}\t{fail[1]}\n"
+        log(f"{fail[0]}\t{fail[1]}")
 
-    log_msg += "\n"
-    log(log_msg)
+    log("-"*50)
 
 
 if __name__ == "__main__":
