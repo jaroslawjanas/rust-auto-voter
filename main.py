@@ -3,7 +3,7 @@ from src.vote import vote_on_server
 import json
 import pickle
 from datetime import datetime
-import os
+from src.logs import log
 import time
 from src.args import args
 
@@ -79,38 +79,20 @@ def vote_loop(vote_urls, cookies_files):
     print(f"Made {len(results['success'])} successful votes")
     print(f"Failed {len(results['fail'])} votes")
 
-    log_to_file(results, start_time)
-
-
-def log_to_file(results, start_time):
-    # Log file open
-    log_file = "./logs/log.txt"
-
-    # Create lof directory if it doesn't exist
-    if not os.path.exists("./logs/"):
-        os.makedirs("./logs/")
-
-    file = None
-    if os.path.exists(log_file):
-        file = open(log_file, 'a')
-    else:
-        file = open(log_file, 'w')
-
-    # Log file results
-    file.write(f"Started voting at {start_time.strftime('%d/%m/%Y %H:%M:%S')}\n")
-    file.write(
-        f"Finished voting at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n")
-
-    file.write(f"Made {len(results['success'])} successful votes\n")
+    # Log results
+    log_msg = f"Started voting at {start_time.strftime('%d/%m/%Y %H:%M:%S')}\n" + \
+        f"Finished voting at {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}\n"
+    
+    log_msg += f"Made {len(results['success'])} successful votes\n"    
     for success in results["success"]:
-        file.write(f"{success[0]}\t{success[1]}\n")
+        log_msg += f"{success[0]}\t{success[1]}\n"
 
-    file.write(f"Failed {len(results['fail'])} votes\n")
+    log_msg += f"Failed {len(results['fail'])} votes\n"
     for fail in results["fail"]:
-        file.write(f"{fail[0]}\t{fail[1]}\n")
+        log_msg += f"{fail[0]}\t{fail[1]}\n"
 
-    file.write("\n")
-    file.close()
+    log_msg += "\n"
+    log(log_msg)
 
 
 if __name__ == "__main__":
