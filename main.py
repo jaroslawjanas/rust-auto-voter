@@ -40,12 +40,13 @@ def main():
 
         # Check if it's been 5 hours since the last execution
         if time_since.seconds > 60*60*args.interval:
+            last_vote = datetime.now()
             print(f"Beginning vote at {datetime.now().strftime('%H:%M:%S')}")
             vote_loop(vote_urls, cookies_files)
         else:
             # Print the time left in hours
             print(
-                f"Next voting attempt in {round((60*60*5 - time_since.seconds)/60/60, 2)} hours")
+                f"Next voting attempt in {round((60*60*args.interval - time_since.seconds)/60/60, 2)} hours")
 
         # Wait for an hour before checking again
         time.sleep(60*60)
