@@ -87,10 +87,7 @@ def get_driver(options=None):
         options.add_argument("--disable-notifications")
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-dev-shm-usage")
-        if args.debug:
-            options.add_argument("--window-size=1920,1080")
-        else:
-            options.add_argument("--window-size=960,960")
+        options.add_argument(f"--window-size={args.width},{args.height}")
         options.add_argument("--incognito")
         options.add_argument("--disable-cloud-management")
         if args.debug:
@@ -117,18 +114,3 @@ def get_driver(options=None):
 
     # Return driver
     return driver
-
-
-# This is for testing
-if __name__ == "__main__":
-    options = webdriver.ChromeOptions()
-    options.add_argument("--disable-gpu")
-    options.add_argument("--disable-infobars")
-    options.add_argument("--disable-notifications")
-    options.add_argument("--window-size=960,960")
-    options.add_argument("--incognito")
-    options.add_argument("--disable-cloud-management")
-    driver = get_driver(options)
-    driver.get("https://www.google.com/")
-    time.sleep(10)
-    driver.quit()
