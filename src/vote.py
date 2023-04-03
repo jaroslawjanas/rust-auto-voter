@@ -20,6 +20,9 @@ def vote_on_server(url, cookies):
     # Get driver
     driver = get_driver()
 
+    # Timeout
+    wait = WebDriverWait(driver, 10)
+
     # Load page
     try:
         driver.get(url)
@@ -30,7 +33,7 @@ def vote_on_server(url, cookies):
 
     # Wait for document to load
     try:
-        wait = WebDriverWait(driver, 10)
+        
         wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
         slow()
     except TimeoutException:
@@ -40,7 +43,6 @@ def vote_on_server(url, cookies):
 
     # Wait for cookies prompt to load and accapt
     try:
-        wait = WebDriverWait(driver, 10)
         cookies_accept = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//div[(@id='cookiescript_accept')]")))
         slow()
@@ -53,7 +55,6 @@ def vote_on_server(url, cookies):
 
     # Wait for the button to be clickable and click
     try:
-        wait = WebDriverWait(driver, 10)
         vote_button = wait.until(EC.element_to_be_clickable(
             (By.XPATH, "//a[(@title='Vote')]")))
         slow()
@@ -66,7 +67,6 @@ def vote_on_server(url, cookies):
 
     # Steam Form
     try:
-        wait = WebDriverWait(driver, 10)
         steam_form = wait.until(EC.presence_of_element_located(
             (By.XPATH, "//form[(@name='steam_form')]")))
         form_checkbox = steam_form.find_element(
@@ -83,7 +83,6 @@ def vote_on_server(url, cookies):
 
     # Wait for steam to load
     try:
-        wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
         slow()
     except TimeoutException:
@@ -100,7 +99,6 @@ def vote_on_server(url, cookies):
 
     # Wait for steam login form to load
     try:
-        wait = WebDriverWait(driver, 10)
         login_form = wait.until(EC.presence_of_element_located(
             (By.XPATH, "//form[(@name='loginForm')]")))
         slow()
@@ -113,7 +111,6 @@ def vote_on_server(url, cookies):
 
     # Selenium look for h1 with text "Vote Confirmation"
     try:
-        wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located(
             (By.XPATH, "//h1[contains(text(), 'Vote Confirmation')]")))
         debug_log(driver, "Vote successful!")
