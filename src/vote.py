@@ -12,15 +12,8 @@ from selenium.common.exceptions import TimeoutException
 
 # Other
 from src.args import args
-from src.logs import log
-from src.logs import log_screenshot
+from src.logs import debug_log
 
-def vote_log(driver, msg):
-    log(msg)
-    if args.debug:
-        print(msg)
-        fname = log_screenshot(driver)
-        log(f"Screenshot saved as {fname}")
 
 def vote_on_server(url, cookies):
 
@@ -31,7 +24,7 @@ def vote_on_server(url, cookies):
     try:
         driver.get(url)
     except:
-        vote_log(driver, "Failed to load page!\nCheck if the URL is correct: {url}")
+        debug_log(driver, "Failed to load page!\nCheck if the URL is correct: {url}")
         driver.quit()
         return False
 
@@ -40,7 +33,7 @@ def vote_on_server(url, cookies):
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for page to load")
+        debug_log(driver, "Timed out waiting for page to load")
         driver.quit()
         return False
 
@@ -51,7 +44,7 @@ def vote_on_server(url, cookies):
             (By.XPATH, "//div[(@id='cookiescript_accept')]")))
         cookies_accept.click()
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for cookies prompt to load")
+        debug_log(driver, "Timed out waiting for cookies prompt to load")
         driver.quit()
         return False
 
@@ -62,7 +55,7 @@ def vote_on_server(url, cookies):
             (By.XPATH, "//a[(@title='Vote')]")))
         vote_button.click()
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for button to be clickable")
+        debug_log(driver, "Timed out waiting for button to be clickable")
         driver.quit()
         return False
 
@@ -76,7 +69,7 @@ def vote_on_server(url, cookies):
         form_checkbox.click()
         steam_form.submit()
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for/filling in Steam form")
+        debug_log(driver, "Timed out waiting for/filling in Steam form")
         driver.quit()
         return False
 
@@ -85,7 +78,7 @@ def vote_on_server(url, cookies):
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for Steam to load")
+        debug_log(driver, "Timed out waiting for Steam to load")
         driver.quit()
         return False
 
@@ -103,7 +96,7 @@ def vote_on_server(url, cookies):
             (By.XPATH, "//form[(@name='loginForm')]")))
         login_form.submit()
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for steam login form to load")
+        debug_log(driver, "Timed out waiting for steam login form to load")
         driver.quit()
         return False
 
@@ -112,10 +105,10 @@ def vote_on_server(url, cookies):
         wait = WebDriverWait(driver, 10)
         wait.until(EC.presence_of_element_located(
             (By.XPATH, "//h1[contains(text(), 'Vote Confirmation')]")))
-        vote_log(driver, "Vote successful!")
+        debug_log(driver, "Vote successful!")
         driver.quit()
         return True
     except TimeoutException:
-        vote_log(driver, "Timed out waiting for vote confirmation")
+        debug_log(driver, "Timed out waiting for vote confirmation")
         driver.quit()
         return False

@@ -11,7 +11,6 @@ import time
 import os
 from src.args import args
 from src.logs import log
-from src.logs import debug_log
 
 
 deafult_paths = {
@@ -110,7 +109,7 @@ def get_driver(options=None):
         driver.get("https://www.google.com/")
         wait = WebDriverWait(driver, 10)
         wait.until(EC.title_is("Google"))
-        debug_log("Driver test successful")
+        log("Driver test successful")
     except:
         print("Failed to test the driver!\nCheck if the browser and driver paths are correct")
         driver.quit()

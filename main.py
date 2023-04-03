@@ -4,7 +4,6 @@ import json
 import pickle
 from datetime import datetime
 from src.logs import log
-from src.logs import debug_log
 import time
 from src.args import args
 
@@ -59,18 +58,18 @@ def vote_loop(vote_urls, cookies_files):
         "fail": []
     }
 
-    debug_log(f"Started voting at {datetime.now().strftime('%H:%M:%S')}")
+    log(f"Started voting at {datetime.now().strftime('%H:%M:%S')}")
 
     # Vote loop
     for vote_url in vote_urls:
         if vote_url == "":
-            debug_log(f"Empty vote url found, skipping")
+            log(f"Empty vote url found, skipping")
             continue
 
-        debug_log(f"Beggining vote loop for {vote_url}")
+        log(f"Beggining vote loop for {vote_url}")
 
         for cookies_file in cookies_files:
-            debug_log(f"Beggining voting using {cookies_file}")
+            log(f"Beggining voting using {cookies_file}")
             cookies = pickle.load(open(cookies_file, "rb"))
             result = vote_on_server(vote_url, cookies)
 
