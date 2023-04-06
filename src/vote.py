@@ -15,6 +15,7 @@ from src.logs import debug_log
 from src.debug import slow
 import re
 
+
 def vote_on_server(url, cookies):
 
     # Get driver
@@ -27,13 +28,14 @@ def vote_on_server(url, cookies):
     try:
         driver.get(url)
     except:
-        debug_log(driver, "Failed to load page!\nCheck if the URL is correct: {url}")
+        debug_log(
+            driver, "Failed to load page!\nCheck if the URL is correct: {url}")
         driver.quit()
         return False
 
     # Wait for document to load
     try:
-        
+
         wait.until(EC.presence_of_element_located((By.XPATH, "//body")))
         slow()
     except TimeoutException:
@@ -103,7 +105,8 @@ def vote_on_server(url, cookies):
         login_form = wait.until(EC.presence_of_element_located(
             (By.XPATH, "//form[(@name='loginForm')]")))
         # Get the logged in user's name
-        user_info = login_form.find_element(By.XPATH, ".//div[(@class='OpenID_loggedInAccount')]")
+        user_info = login_form.find_element(
+            By.XPATH, ".//div[(@class='OpenID_loggedInAccount')]")
         debug_log(driver, f"Logged in as {user_info.text} ")
         slow()
         login_form.submit()
@@ -113,7 +116,8 @@ def vote_on_server(url, cookies):
         driver.quit()
         return False
     except NoSuchElementException:
-        debug_log(driver, "Failed to find logged in user's name, is the cookie correct?")
+        debug_log(
+            driver, "Failed to find logged in user's name, is the cookie correct?")
         driver.quit()
 
     # Selenium voting outcome detection
