@@ -77,6 +77,7 @@ def vote_loop(vote_urls, cookies_files):
                 results["success"].append((cookies_file, vote_url))
             else:
                 results["fail"].append((cookies_file, vote_url))
+            log("")
 
     # Results
     log(f"Finished voting at {datetime.now().strftime('%H:%M:%S')}")
