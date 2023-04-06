@@ -8,12 +8,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # Exceptions
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 # Other
 from src.logs import debug_log
 from src.debug import slow
-
 
 def vote_on_server(url, cookies):
 
@@ -97,10 +96,14 @@ def vote_on_server(url, cookies):
     # Reload page
     driver.refresh()
 
-    # Wait for steam login form to load
+    # Steam login
     try:
+        # Wait for steam login form to load
         login_form = wait.until(EC.presence_of_element_located(
             (By.XPATH, "//form[(@name='loginForm')]")))
+        # Get the logged in user's name
+        user_info = login_form.find_element(By.XPATH, ".//div[(@class='OpenID_loggedInAccount')]")
+        debug_log(driver, f"Logged in as {user_info.text} ")
         slow()
         login_form.submit()
         slow()
@@ -108,6 +111,9 @@ def vote_on_server(url, cookies):
         debug_log(driver, "Timed out waiting for steam login form to load")
         driver.quit()
         return False
+    except NoSuchElementException:
+        debug_log(driver, "Failed to find logged in user's name, is the cookie correct?")
+        driver.quit()
 
     # Selenium look for h1 with text "Vote Confirmation"
     try:
