@@ -42,14 +42,20 @@ Extract the downloaded files and move them to the `./browser` directory in the p
 To run the program, use the following command:
 
 ```bash
-python main.py [--headless] [--debug] [--browser_path <path>] [--driver_path <path>] [--interval <hours>]
+python main.py [--debug] [--slow <seconds>] [--width <pixels>] [--height <pixels>] [--headless] [--browser_path <path>] [--driver_path <path>] [--interval <hours>]
 ```
 
 ## Arguments
 
 **--debug** (optional) - Enters debugging mode (default: False)
 
-**--headless** (recommended) -  Runs the application in headless mode, which means that the GUI will not be displayed, useful in a server environment (*deafault: False)
+**--slow <seconds>** (optional) - Pauses the application for the specified time after preforming an action in the browser, mainly used in development and testing (*default: 0*)
+
+**--width <pixels>** (optional) - Specify the width of the browser window (*default: 960*)
+
+**--height <pixels>** (optional) - Specify the height of the browser window (*default: 960*)
+
+**--headless** (recommended) - Runs the application in headless mode, which means that the GUI will not be displayed, useful in a server environment (*deafault: False)
 
 **--browser_path <path>** (optional) - Manually specify Chromium browser path (*default: dynamic*)
 
