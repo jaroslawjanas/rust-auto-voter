@@ -10,13 +10,18 @@ def main():
     # Url search
     vote_url_file = "./config/url.json"
     with open(vote_url_file, 'r') as file:
-        vote_url = json.load(file)
+        vote_urls = json.load(file)
     
-    if len(vote_url) == 0:
+    if len(vote_urls) == 0:
         print("No urls found, exiting")
         return
-    elif len(vote_url) > 1:
+    elif len(vote_urls) > 1:
         print("Multiple urls found, exiting")
+        return
+    
+    vote_url = vote_urls[0]
+    if vote_url == "":
+        print("Empty url found, exiting")
         return
     
     # Getting driver
