@@ -1,8 +1,7 @@
-name: rust-auto-voter
+name: csgoroll-bot
 channels:
     - defaults
     - conda-forge
 dependencies:
     - python=3.11
     - selenium=4.8.3
-    - webdriver-manager=3.8.5
