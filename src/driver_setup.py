@@ -120,23 +120,30 @@ def steam_login(driver):
     # If 2FA is enabled, ask and input the code
     if two_factor.lower() == "y":
 
-        two_factor_code = input("Enter your 2FA code: ")
-        if len(two_factor_code) != 5:
-            log(driver, "2FA code must be 5 digits long")
-            return False
-        
-        # split input into an array of characters
-        two_factor_code_list = list(two_factor_code)
+        # Some users get a confirm sign in dialog, others an input box
         try:
-            two_factor_inputs = login_div.find_elements(
-                By.XPATH, ".//input[@type='text']")
+            wait.until(EC.presence_of_element_located(
+            (By.XPATH, "//div[(@class='newlogindialog_AwaitingMobileConfText_7LmnT')]")))
+            input("Press enter after you have confirmed the login on your phone")
+        except TimeoutException:
+            two_factor_code = input("Enter your 2FA code: ")
+            if len(two_factor_code) != 5:
+                log(driver, "2FA code must be 5 digits long")
+                return False
             
-            for char, input_element in zip(two_factor_code_list, two_factor_inputs):
-                input_element.send_keys(char)
-            
-        except NoSuchElementException:
-            debug_log(driver, "Failed to find 2FA input")
-            return False
+            # split input into an array of characters
+            two_factor_code_list = list(two_factor_code)
+            try:
+                two_factor_inputs = login_div.find_elements(
+                    By.XPATH, ".//input[@type='text']")
+                
+                for char, input_element in zip(two_factor_code_list, two_factor_inputs):
+                    input_element.send_keys(char)
+                
+            except NoSuchElementException:
+                debug_log(driver, "Failed to find 2FA input")
+                return False
+
 
     # Check if login was successful
     try:
