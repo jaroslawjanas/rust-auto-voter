@@ -138,7 +138,12 @@ def steam_login(driver):
             debug_log(driver, "Failed to find 2FA input")
             return False
 
-    # There is no actual check if the login was successful, yet
+    # Check if login was successful
+    try:
+        wait.until(lambda driver: "steamLoginSecure" in [cookie["name"] for cookie in driver.get_cookies()])
+    except TimeoutException:
+        return False
+
     return True
 
 
@@ -200,7 +205,7 @@ def get_driver(options=None):
         driver.get("https://www.google.com/")
         wait = WebDriverWait(driver, 10)
         wait.until(EC.title_is("Google"))
-        log("Driver test successful")
+        print("Driver test successful")
     except:
         print("Failed to test the driver!\nCheck if the browser and driver paths are correct")
         driver.quit()
@@ -211,6 +216,8 @@ def get_driver(options=None):
         print("Failed to login to steam!")
         driver.quit()
         exit()
+    else:
+        print("Login successful")
 
     # Return driver
     return driver
